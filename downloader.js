@@ -21,7 +21,7 @@ const downloader = async (url, callback) => {
             var video = false;
             var display = false;
             var linkStartIndex, linkEndIndex;
-            
+
             for (var i = 0; i < html.length; i++) {
                 //VIDEO LINKS
                 if (!video) {
@@ -75,7 +75,11 @@ const downloader = async (url, callback) => {
                     }
                 }
             }
-            temp.shift();
+
+            console.log(' temp : ', temp);
+
+            if (temp.length > 1)
+                temp.shift();
             temp.forEach(e => link.add(e.replace(/\\u0026/g, '&')));
             callback([...link]);
         })
