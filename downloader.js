@@ -14,6 +14,7 @@ const downloader = async (url, callback) => {
             var html = response.data;
             var link = new Set();
             var temp = [];
+            var temp2 = [];
             var videoFooterIndex = 0;
             var videoHeaderIndex = 0;
             var displayHeaderIndex = 0;
@@ -42,7 +43,10 @@ const downloader = async (url, callback) => {
 
                     if (videoFooterIndex == videoFooter.length) {
                         linkEndIndex = i - videoFooter.length + 1;
-                        temp.push(html.substring(linkStartIndex, linkEndIndex));
+                        temp.push({
+                            'url': html.substring(linkStartIndex, linkEndIndex),
+                            'type': 2
+                        });
                         video = false;
                         videoHeaderIndex = 0;
                         videoFooterIndex = 0;
@@ -68,7 +72,10 @@ const downloader = async (url, callback) => {
 
                     if (displayFooterIndex == displayFooter.length) {
                         linkEndIndex = i - displayFooter.length + 1;
-                        temp.push(html.substring(linkStartIndex, linkEndIndex));
+                        temp.push({
+                            'url': html.substring(linkStartIndex, linkEndIndex),
+                            'type': 1
+                        });
                         display = false;
                         displayHeaderIndex = 0;
                         displayFooterIndex = 0;
@@ -77,10 +84,18 @@ const downloader = async (url, callback) => {
             }
 
             console.log(' temp : ', temp);
-
             if (temp.length > 1)
                 temp.shift();
-            temp.forEach(e => link.add(e.replace(/\\u0026/g, '&')));
+
+            for (var i = temp.length - 1; i >= 0; i--) {
+                temp2.push(temp[i]['url']);
+                if (temp[i].type == 2) {
+                    i--;
+                }
+            }
+            temp2.reverse()
+
+            temp2.forEach(e => link.add(e.replace(/\\u0026/g, '&')));
             callback([...link]);
         })
         .catch(err => {
