@@ -1,4 +1,4 @@
-const { downloader } = require('../downloader');
+const { extractor } = require('../extractor');
 
 module.exports = {
     name: 'download',
@@ -18,7 +18,7 @@ module.exports = {
                 continue;
             }
 
-            downloader(url, values => {
+            extractor(url, values => {
                 console.log(values);
 
                 links = values['links'];

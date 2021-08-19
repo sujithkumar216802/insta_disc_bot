@@ -12,7 +12,7 @@ const jsonHeader = '<script type="application/ld+json">';
 
 const jsonFooter = "</script>";
 
-const downloader = async (url, callback) => {
+const extractor = async (url, callback) => {
     await axios.get(url)
         .then(response => {
             var html = response.data;
@@ -154,5 +154,5 @@ const downloader = async (url, callback) => {
 }
 
 module.exports = {
-    downloader
+    extractor
 }
